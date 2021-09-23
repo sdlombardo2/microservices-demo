@@ -21,5 +21,6 @@ require (
         golang.org/x/net v0.0.0-20200822124328-c89045814202
         google.golang.org/api v0.7.1-0.20190709010654-aae1d1b89c27 // indirect
         google.golang.org/appengine v1.6.1 // indirect
-        google.golang.org/grpc v1.37.0
+        // google.golang.org/grpc v1.37.0
+        google.golang.org/grpc v1.29.0
 )
