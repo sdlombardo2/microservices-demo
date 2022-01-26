@@ -18,7 +18,7 @@ RUN apk add build-base
 WORKDIR /frontend/src
 
 # restore dependencies
-COPY go.mod go.sum ./
+COPY /frontend/src/go.mod /frontend/src/go.sum ./
 RUN go mod download
 COPY . .
 
@@ -32,8 +32,8 @@ RUN apk add --no-cache ca-certificates \
     busybox-extras net-tools bind-tools
 WORKDIR /frontend/src
 COPY --from=builder /go/bin/frontend /src/server
-COPY templates ./templates
-COPY static ./static
+COPY /frontend/src/templates ./templates
+COPY /frontend/src/static ./static
 
 # Definition of this variable is used by 'skaffold debug' to identify a golang binary.
 # Default behavior - a failure prints a stack trace for the current goroutine.
