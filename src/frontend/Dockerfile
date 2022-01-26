@@ -15,10 +15,10 @@
 FROM golang:1.15-alpine as builder
 RUN apk add --no-cache ca-certificates git
 RUN apk add build-base
-WORKDIR /frontend/src
+WORKDIR /src/frontend
 
 # restore dependencies
-COPY /frontend/src/go.mod /frontend/src/go.sum ./
+COPY /src/frontend/go.mod /src/frontend/go.sum ./
 RUN go mod download
 COPY . .
 
@@ -30,10 +30,10 @@ RUN go build -gcflags='all=-N -l' -o /go/bin/frontend .
 FROM alpine as release
 RUN apk add --no-cache ca-certificates \
     busybox-extras net-tools bind-tools
-WORKDIR /frontend/src
+WORKDIR /src/frontend
 COPY --from=builder /go/bin/frontend /src/server
-COPY /frontend/src/templates ./templates
-COPY /frontend/src/static ./static
+COPY /src/frontend/templates ./templates
+COPY /src/frontend/static ./static
 
 # Definition of this variable is used by 'skaffold debug' to identify a golang binary.
 # Default behavior - a failure prints a stack trace for the current goroutine.
