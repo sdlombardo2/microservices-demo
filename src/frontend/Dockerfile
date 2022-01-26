@@ -15,7 +15,7 @@
 FROM golang:1.15-alpine as builder
 RUN apk add --no-cache ca-certificates git
 RUN apk add build-base
-WORKDIR /src/frontend
+WORKDIR /src
 
 # restore dependencies
 COPY /src/frontend/go.mod /src/frontend/go.sum ./
@@ -30,7 +30,7 @@ RUN go build -gcflags='all=-N -l' -o /go/bin/frontend .
 FROM alpine as release
 RUN apk add --no-cache ca-certificates \
     busybox-extras net-tools bind-tools
-WORKDIR /src/frontend
+WORKDIR /src
 COPY --from=builder /go/bin/frontend /src/server
 COPY /src/frontend/templates ./templates
 COPY /src/frontend/static ./static
