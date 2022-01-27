@@ -15,16 +15,16 @@
 FROM golang:1.15-alpine as builder
 RUN apk add --no-cache ca-certificates git
 RUN apk add build-base
-WORKDIR /src/frontend
+WORKDIR /src
 
 # restore dependencies
-COPY /src/frontend/go.mod /src/frontend/go.sum ./
+COPY go.mod go.sum ./
 RUN go mod download
 COPY . .
 
 # Skaffold passes in debug-oriented compiler flags
 ARG SKAFFOLD_GO_GCFLAGS
-RUN go build -gcflags="${SKAFFOLD_GO_GCFLAGS}" -o /src/go/bin/frontend .
+RUN go build -gcflags="${SKAFFOLD_GO_GCFLAGS}" -o /go/bin/frontend .
 # RUN go build -gcflags='all=-N -l' -o /go/bin/frontend .
 
 FROM alpine as release
@@ -32,8 +32,8 @@ RUN apk add --no-cache ca-certificates \
     busybox-extras net-tools bind-tools
 WORKDIR /src/frontend
 COPY --from=builder /go/bin/frontend /src/server
-COPY /src/frontend/templates ./templates
-COPY /src/frontend/static ./static
+COPY /src/templates ./templates
+COPY /src/static ./static
 
 # Definition of this variable is used by 'skaffold debug' to identify a golang binary.
 # Default behavior - a failure prints a stack trace for the current goroutine.
