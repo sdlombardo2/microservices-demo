@@ -32,8 +32,8 @@ import (
 	"go.opencensus.io/plugin/ochttp/propagation/b3"
 	"go.opencensus.io/stats/view"
 	"go.opencensus.io/trace"
-	// "google.golang.org/grpc@v1.27.0"
-	"google.golang.org/grpc/naming"
+	"google.golang.org/grpc@v1.27.0"
+	//"google.golang.org/grpc/naming"
 )
 
 const (
